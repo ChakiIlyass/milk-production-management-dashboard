@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+.cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 40px;
+    width: 100%;
+    padding: 40px;
+    padding-top: 0;
+    margin-top: 20px;
+
+}
+
+.first-card{
+    
+    margin-left: 0px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #299b63;
+    box-shadow: 0 7px 25px 0 rgba(0,0,0, 0.08);
+    padding: 60px;
+    border-radius: 15px;
+    width: 100%;
+}
+.second-card{
+    
+    margin-left: 0px; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color:#324960;    
+    box-shadow: 0 7px 25px 0 rgba(0,0,0, 0.08); 
+    padding: 60px;
+    border-radius: 15px;
+    width: 100%;
+
+}
+
+.number{
+    font-size: 40px;
+    font-weight: 500;
+    color: #fff;
+}
+.card-name{
+    
+    color: #fff;
+    font-weight: 800;
+   
+}
+.icon-box i{
+    font-size: 40px;
+    color: #fff;
+
+}
+/*charts*/
+.charts{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 40px;
+    width: 100%;
+    padding: 40px;
+    padding-top: 0;
+    margin-top: 20px;
+    
+}
+.chart{
+    background:white;
+    padding: 60px;
+    border-radius: 15px;
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.2);
+    width: 100%;
+}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<%-include("./partials/header.ejs") %>
+<body>
+   <div class="container">   
+    <%- include("./partials/sidebar.ejs") %>
+    <div class="main">
+        <div class="cards"> 
+            <div class="second-card">
+                <div class="card-content"> 
+
+                    <div class="number"><%=cowNbr%></div>
+                    <div class="card-name">number of cows</div>
+
+                </div>
+
+                <div class="icon-box">
+                    <i class="fas fa-chart-line"></i> 
+                </div>       
+            </div>
+            
+            <div class="first-card">
+                <div class="card-content"> 
+                    <div class="number"><%=birthNbr%></div>
+                    <div class="card-name">number of Births</div>
+
+                </div>
+                
+                <div class="icon-box">
+                    <i class="fas fa-chart-bar"></i>
+                </div>       
+            </div>
+        </div>
+       
+        <div class="charts"> 
+            <div class="chart">
+                <div>
+                  <canvas id="myChart"></canvas>
+                </div>           
+                <script>
+                  let days = '<%= days %>';
+                    let daysArray = days.split(',');
+                    let quantity = '<%=quantity%>';
+                    let quantityArray = quantity.split(',');
+                    let quantityIntArray = quantityArray.map(Number);
+                    var xValues = daysArray;
+                    var yValues = quantityIntArray;
+              
+                  // Filter out undefined values
+                  var xValues = daysArray.filter(function(value) {
+                    return value !== 'undefined';
+                  });
+              
+                  var yValues = quantityIntArray.filter(function(value) {
+                    return !isNaN(value);
+                  });
+              
+                  new Chart("myChart", {
+                    type: "bar",
+                    data: {
+                      labels: xValues,
+                      datasets: [{
+                        backgroundColor: '#299b63',
+                        data: yValues
+                      }]
+                    },
+                    options: {
+                      legend: { display: false },
+                      title: {
+                        display: true,
+                        text: "Milk Daily Production" 
+                      }
+                    }
+                  });
+                </script>
+              </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  
+
+    <div class="chart">
+        <canvas id="doughnut-chart"></canvas>
+    </div>
+
+    <script>
+        let holstein = '<%=holstein%>' ;
+        let mont = '<%=montpeliard%>';
+        console.log(holstein, mont);
+        var xValues1 = ["Holstein", "Montpeliard"];
+        var yValues1 = [holstein, mont];
+        var barColors = [
+            "#00D0FF",
+            "#3246D3"
+        ];
+
+        new Chart("doughnut-chart", { 
+            type: "doughnut",
+            data: {
+                labels: xValues1,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues1
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "cows breeds"
+                }
+            }
+        });
+    </script>
+       </div>
+    </div>       
+    </div>
+  </div>
+    
+</body>
+</html>

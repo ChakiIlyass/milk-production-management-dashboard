@@ -1,0 +1,121 @@
+<style>
+.side-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background: #299b63;
+    overflow: hidden;
+}
+
+.side-bar ul {
+    margin-top: 20px;
+}
+
+.side-bar ul li {
+    width: 100%;
+    list-style: none;
+    transition: transform 0.3s ease;
+}
+
+.side-bar ul li.active {
+    background-color: #3a9f6e;
+    transform: scale(1.1);
+}
+
+.side-bar ul li:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.side-bar ul li a {
+    width: 100%;
+    text-decoration: none;
+    color: #fff;
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.side-bar ul li a i {
+    min-width: 60px;
+    font-size: 24px;
+    text-align: center;
+}
+.side-bar ul li.active a {
+    width: 100%;
+    text-decoration: none;
+    color:#299b63;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    text-shadow: none;
+    font-weight: 650;
+}
+
+.side-bar ul li.active {
+    background-color:white; 
+    color: #299b63;
+    transform: scale(1.1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);    
+}
+
+.side-bar ul li:not(.active) {
+    filter: grayscale(100%);
+    opacity: 0.90;
+}
+
+</style>
+
+<div class="side-bar">
+    <ul>
+        <li>
+            <a href="/">
+                <i class="fas fa-home"></i>
+                <div>Home</div>
+            </a>
+        </li>
+       
+      
+        <li>
+            <a href="/addcow">
+                <i class="fas fa-plus"></i> 
+                <div>Add new cows</div>
+            </a>
+        </li>
+        <li>
+            <a href="/diagnostic">
+                <i class="fas fa-medkit"></i>
+                <div> add for diagnostic</div>
+            </a>
+        </li>
+        <li>
+            <a href="/birth">
+                <i class="fas fa-paw"></i>
+                <div> add birth</div>
+            </a>
+        </li>
+        <li>
+            <a href="milk-production">
+                <i class="fas fa-glass-whiskey"></i>
+                <div> milk production</div>
+            </a>
+        </li>
+  
+    </ul>
+    <script>
+        // Get the current URL path
+        var currentPath = window.location.pathname;
+        
+        // Find the corresponding sidebar item and add the "active" class
+        var sidebarItems = document.querySelectorAll('.side-bar ul li');
+        sidebarItems.forEach(function(item) {
+            var link = item.querySelector('a');
+            if (link && link.getAttribute('href') === currentPath) {
+                item.classList.add('active');
+            }
+        });
+        </script>
+        
+</div>

@@ -1,0 +1,23 @@
+{
+  "cows": [
+    {
+      "id": "21659",
+      "entrydate": "2023-09-19",
+      "breed": "Holstein",
+      "illness": "false"
+    },
+    {
+      "id": "8454",
+      "entrydate": "2023-09-06",
+      "breed": "Montpliard",
+      "illness": "false",
+      "diagnosticdate": "2023-09-27"
+    },
+    {
+      "id": "54",
+      "entrydate": "2023-08-29",
+      "breed": "Holstein",
+      "illness": "true"
+    }
+  ]
+}

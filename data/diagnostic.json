@@ -1,0 +1,10 @@
+{
+  "diagnostic": [
+    {
+      "id": "3213",
+      "breed": "Holstein",
+      "illness": "true",
+      "diagnosticdate": "2023-09-20"
+    }
+  ]
+}

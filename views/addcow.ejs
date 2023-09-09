@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%-include("./partials/header.ejs") %>
+
+
+<body>
+    <%- include("./partials/sidebar.ejs") %>
+
+    <div class="main">
+        <div class="title-container">
+            <h1 class="title">List of cows</h1>
+        </div>
+
+
+        <button class="add-button" onclick="openForm()">
+            <i class="fas fa-plus icon"></i> Add Cow
+        </button>
+        
+
+
+       
+          <div class="overlay" id="overlay"></div>
+
+          <div class="form-popup" id="myForm">
+            <form class="form-container" action="/addCow" method="post">
+              <h2>register cow data</h2>
+
+              <div>
+                <label for="cow-number">Cow Number</label>
+                <input type="text" id="id" name="id" required>
+              </div>
+
+            
+              <div>
+                <label for="cow-breed">cow breed</label>
+                <select id="breed" name="breed" required>
+                  <option value="" disabled></option>
+                  <option value="Holstein">Holstein</option>
+                  <option value="Montpliard">Montpliard</option>
+                </select>
+              </div>
+                <div>
+                <label for="entry-date"> entry date</label>
+                <input type="date" id="entrydate" name="entrydate" required>
+              </div>
+
+
+              <div>
+                <label for="Illness">Illness  </label>
+                <select id="illness" name="illness" >
+                  <option value=""></option>
+                  <option value="false">No </option>
+                  <option value="true"> Yes</option>
+                </select>
+              </div>
+              <div>
+                <button id="confirm" type="submit">register</button>
+                <button id="cancel" onclick="closeForm()">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+
+        <div class="table-container">
+          
+            <div class="table-wrapper">
+
+                <table class="fl-table">
+                    <thead>
+                        <tr>
+                            <th><h1>Id</h1></th>
+                            <th><h1>Entry date</h1></th>
+                            <th><h1>Breed</h1></th>
+                            <th><h1>illness</h1></th>
+                            <th colspan="2"><h1>action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% cows.forEach((cow, index) => { %>
+                            <tr>
+                                <td><%= cow.id %></td>
+                                <td><%= cow.entrydate %></td>
+                                <td><%= cow.breed %></td>
+                                <td><%= cow.illness === "true" ? "yes" : "no" %></td>
+                                
+
+                                <td>
+                        
+                                  <button class="editbtn" onclick="openUpdateForm('<%= index %>')"> <i class="edit-icon fas fa-edit"></i></button>
+                                    <div class="update-form">
+                                      <form class="update-form-container" action="/updatecow" method="post">
+                                        <h5 style="color: #1e15d8;">update cow</h5>
+                                        <div>
+                                          <input hidden type="text" id="id" name="id" value="<%= cow.id %>" required>
+                                          
+                                        </div>
+                                        <div>
+                                          <label for="entry-date">entry date</label>
+                                          <input value="<%= cow.entrydate %>" type="date" id="entrydate" name="entrydate" required>
+                                        </div>
+                          
+                                        <div>
+                                          <label for="cow-breed"> breed</label>
+                                          <select id="breed" name="breed" required>
+                                            <option value=""></option>
+                                            <option value="Holstein">Holstein</option>
+                                            <option value="Montpliard">Montpliard</option>
+                                          </select>
+                                        </div>
+              
+                                        <div>
+                                          <label style="margin-left: 65px;" for="Illness"> Illnes</label>
+                                          <select id="illness" name="illness" >
+                                            <option value=""></option>
+                                            <option value="false">no</option>
+                                            <option value="true">  yes</option>
+                                          </select>
+                                        </div>
+                      
+              
+                                        <div>
+                                          <button id="confirm" type="submit" >update </button>
+                                          <button id="cancel" type="button" onclick="closeUpdateForm('<%= index %>')"> cancel </button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </td>
+                                    <td>
+                                    <button onclick="openDeleteForm('<%= index %>')" class="deletebtn"><i class="fas fa-trash-alt"></i></button>
+                                    
+                                   
+                                    <!-- Delete Form -->
+                                    <div class="delete-form">
+                                      <form class="delete-form-container" action="/deletecow" method="post">
+                                        <h5 style="color: #d81515;"> Delete  Cow <%=cow.id %> </h5>
+                                        <input type="text" name="id" id="id" value="<%=cow.id %>" hidden>
+                                        <div>
+                                          <button id="confirm-delete" type="submit">Confirm</button>
+                                          <button id="cancel-delete" type="button" onclick="closeDeleteForm('<%= index %>')">Cancel</button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </td>
+                                
+                            </tr>
+                        <% }); %>
+
+                        
+                    </tbody>
+                </table>
+                
+               
+                
+            </div>
+        </div>
+       
+    
+
+
+
+    </div>
+
+    <script>
+        function openForm() {
+          document.getElementById("myForm").style.display = "block";
+          document.getElementById("overlay").style.display = "block";
+        }
+        
+        function closeForm() {
+          document.getElementById("myForm").style.display = "none";
+          document.getElementById("overlay").style.display = "none";
+        }
+
+        function openDeleteForm(index) {
+        const popUpForms2 = document.getElementsByClassName("delete-form");
+      
+        const deleteBtn = document.getElementsByClassName('deletebtn');
+        // Display the selected pop-up form
+        popUpForms2[index].style.display = "block";
+        //hide the dit btn
+        deleteBtn[index].style.display = "none";
+      }
+      function openUpdateForm(index) {
+              const popUpForms = document.getElementsByClassName("update-form");
+
+              const editBtn = document.getElementsByClassName('editbtn');
+              // Display the selected pop-up form
+              popUpForms[index].style.display = "block";
+              //hide the dit btn
+              editBtn[index].style.display = "none";
+            }
+
+            function closeUpdateForm(index) {
+              const popUpForms = document.getElementsByClassName("update-form");
+              const editBtn = document.getElementsByClassName('editbtn');
+              // Hide the selected pop-up form
+
+              editBtn[index].style.display = "inline-block"; 
+          
+                // Hide the selected pop-up form
+                popUpForms[index].style.display = "none";
+            }
+     
+
+      function closeDeleteForm(index) {
+          const popUpForms2 = document.getElementsByClassName("delete-form");
+          const deleteBtn = document.getElementsByClassName('deletebtn');
+          
+          // Show the delete button again
+          deleteBtn[index].style.display = "inline-block"; // Use 'inline-block' or your desired display style
+          
+          // Hide the selected pop-up form
+          popUpForms2[index].style.display = "none";
+      }
+        
+       
+        </script>
+
+
+
+
+
+</body>
+</html>

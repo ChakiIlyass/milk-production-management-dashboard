@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+<%-include("./partials/header.ejs") %>
+<body>
+    <%- include("./partials/sidebar.ejs") %>
+
+
+    <div class="main">
+        <div class="title-container">
+            <h1 class="title">Birth list</h1>
+        </div>
+
+        <button class="add-button" onclick="openForm()">
+            <i class="fas fa-plus icon"></i> Add Birth
+        </button>
+        
+
+
+       
+        <div class="overlay" id="overlay"></div>
+
+          <div class="form-popup" id="myForm">
+            <form class="form-container" action="/addBirth" method="post">
+              <h2>register Birth data</h2>
+
+              <div>
+                <label for="birth-number">birth Number</label>
+                <input type="text" id="id" name="id" required>
+              </div>
+
+              <div>
+                <label for="motherid">motherid</label>
+                <input type="text" id="motherid" name="motherid" required>
+              </div>
+
+              <div>
+                <label for="birth-date"> birth date</label>
+                <input  type="date" id="birthdate" name="birthdate">
+              </div>
+
+              <div>
+                <button id="confirm" type="submit">register</button>
+                <button id="cancel" onclick="closeForm()">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+      
+
+
+
+
+
+        <div class="table-container">
+            <div class="table-wrapper">
+                <table class="fl-table">
+                    <thead>
+                        <tr>
+                            <th><h1>Id</h1></th>
+                            <th><h1>Mother ID</h1></th>
+                            <th><h1>Birthdate</h1></th> 
+                            <th colspan="2"><h1>Action</h1></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% births.forEach((birth, index) => { %>
+                            <tr>
+                                <td><%= birth.id %></td> 
+                                <td><%= birth.motherid %></td>
+
+                                <td><%= birth.birthdate %></td>
+
+                                <td>
+                        
+                                  <button class="editbtn" onclick="openUpdateForm('<%= index %>')"> <i class="edit-icon fas fa-edit"></i></button>
+                                    <div class="update-form">
+                                      <form class="update-form-container" action="/updateBirth" method="post">
+                                        <h5 style="color: #1e15d8;">update Birth</h5>
+                                        <div>
+                                          <input hidden type="text" id="id" name="id" value="<%= birth.id %>" required>
+                                          
+                                        </div>
+                                        <div>
+                                          <label for="motherid">mother id</label>
+                                          <input style="margin-right: 27px;" type="text" id="motherid" name="motherid" value="<%= birth.motherid %>" required>
+                                        </div>
+                          
+                                        <div>
+                                          <label for="birth-date"> birth date   </label>
+                                          <input value="<%= birth.birthdate %>" type="date" id="birthdate" name="birthdate" required>
+                                        </div>
+                          
+                                      
+              
+                                        <div>
+                                          <button id="confirm" type="submit" >update </button>
+                                          <button id="cancel" type="button" onclick="closeUpdateForm('<%= index %>')"> cancel </button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </td>
+                                
+                                <td>
+                                <button onclick="openDeleteForm('<%= index %>')" class="deletebtn"><i class="fas fa-trash-alt"></i></button>
+                               
+                                 
+                                  <!-- Delete Form -->
+                                  <div class="delete-form">
+                                    <form class="delete-form-container" action="/deletebirth" method="post">
+                                      <h5 style="color: #d81515;"> Delete  Birth <%=birth.id %> </h5>
+                                      <input type="text" name="id" id="id" value="<%=birth.id %>" hidden>
+                                      <div>
+                                        <button id="confirm-delete" type="submit">Confirm</button>
+                                        <button id="cancel-delete" type="button" onclick="closeDeleteForm('<%= index %>')">Cancel</button>
+                                      </div>
+                                    </form>
+                                  </div>
+                                </td>
+                                
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+     
+    </div>
+     
+    </div>
+
+    
+    <script>
+            
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+          }
+          
+          function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+          }
+
+          function openUpdateForm(index) {
+              const popUpForms = document.getElementsByClassName("update-form");
+
+              const editBtn = document.getElementsByClassName('editbtn');
+              // Display the selected pop-up form
+              popUpForms[index].style.display = "block";
+              //hide the dit btn
+              editBtn[index].style.display = "none";
+            }
+
+            function closeUpdateForm(index) {
+              const popUpForms = document.getElementsByClassName("update-form");
+              const editBtn = document.getElementsByClassName('editbtn');
+              // Hide the selected pop-up form
+
+              editBtn[index].style.display = "inline-block"; 
+          
+                // Hide the selected pop-up form
+                popUpForms[index].style.display = "none";
+            }
+          
+          function openDeleteForm(index) {
+        const popUpForms2 = document.getElementsByClassName("delete-form");
+      
+        const deleteBtn = document.getElementsByClassName('deletebtn');
+        popUpForms2[index].style.display = "block";
+        
+        deleteBtn[index].style.display = "none";
+      }
+      
+      function closeDeleteForm(index) {
+          const popUpForms2 = document.getElementsByClassName("delete-form");
+          const deleteBtn = document.getElementsByClassName('deletebtn');
+          
+          
+          deleteBtn[index].style.display = "inline-block"; 
+          
+         
+          popUpForms2[index].style.display = "none";
+      }
+          </script>       
+</body>
+</html>
